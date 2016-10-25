@@ -5,10 +5,9 @@ branches:
 build_script:
 - ps: >-
     Import-Module .\tools\psake\psake.psm1
-    Invoke-psake .\build-definition.ps1 dotnet-restore dotnet-build dotnet-pack
-    # Get Psake to Return Non-Zero Return Code on Build Failure
-    # https://github.com/psake/psake/issues/58
-    exit !($psake.build_success)
+    Invoke-psake .\build-definition.ps1 dotnet-restore
+    Invoke-psake .\build-definition.ps1 dotnet-build
+    Invoke-psake .\build-definition.ps1 dotnet-pack
 test: off
 artifacts:
 - path: artifacts/packages/*.nupkg
