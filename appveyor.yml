@@ -14,7 +14,7 @@ deploy:
   server: https://www.myget.org/F/ahoy/
   api_key:
     secure: 3cB4QYLjlvLWYXMZs/3d+BW7YKVDxp7MkyEeB9al8HtHYhIFxgCUiLu/765g8dEYSLETTMEG
-  skip_symbols: false
+  skip_symbols: true
   on:
     branch: master
     appveyor_repo_tag: true
