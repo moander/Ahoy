@@ -10,13 +10,13 @@ build_script:
     Invoke-psake .\build-definition.ps1 dotnet-pack;
 test: off
 artifacts:
-- path: artifacts/packages/*.nupkg
+- path: artifacts/nuget/*.nupkg
 deploy:
 - provider: NuGet
   server: https://www.myget.org/F/ahoy/
   api_key:
     secure: 3cB4QYLjlvLWYXMZs/3d+BW7YKVDxp7MkyEeB9al8HtHYhIFxgCUiLu/765g8dEYSLETTMEG
-  skip_symbols: true
+  skip_symbols: false
   on:
     branch: master
 
