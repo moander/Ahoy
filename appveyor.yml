@@ -5,7 +5,7 @@ branches:
 build_script:
 - ps: >-
     Import-Module .\tools\psake\psake.psm1;
-    Invoke-psake .\build-definition.ps1 dotnet-restore;
+    Invoke-psake .\build-definition.ps1 init, dotnet-restore;
     Invoke-psake .\build-definition.ps1 dotnet-build;
     Invoke-psake .\build-definition.ps1 dotnet-pack;
 test: off
