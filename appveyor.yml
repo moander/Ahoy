@@ -5,7 +5,7 @@ branches:
 build_script:
 - ps: >-
     Import-Module .\tools\psake\psake.psm1;
-    Invoke-psake .\build-definition.ps1 -parameters @{BuildNumber=$env:APPVEYOR_BUILD_ID} init, dotnet-restore, dotnet-build, dotnet-pack;
+    Invoke-psake .\build-definition.ps1 -parameters @{BuildNumber=appveyor%APPVEYOR_BUILD_ID%} init, dotnet-restore, dotnet-build, dotnet-pack;
 test: off
 artifacts:
 - path: artifacts/nuget/*.nupkg
