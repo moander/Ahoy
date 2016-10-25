@@ -4,10 +4,10 @@ branches:
   - master
 build_script:
 - ps: >-
-    Import-Module .\tools\psake\psake.psm1
-    Invoke-psake .\build-definition.ps1 dotnet-restore
-    Invoke-psake .\build-definition.ps1 dotnet-build
-    Invoke-psake .\build-definition.ps1 dotnet-pack
+    Import-Module .\tools\psake\psake.psm1;
+    Invoke-psake .\build-definition.ps1 dotnet-restore;
+    Invoke-psake .\build-definition.ps1 dotnet-build;
+    Invoke-psake .\build-definition.ps1 dotnet-pack;
 test: off
 artifacts:
 - path: artifacts/packages/*.nupkg
@@ -15,7 +15,7 @@ deploy:
 - provider: NuGet
   server: https://www.myget.org/F/ahoy/
   api_key:
-    secure: 43SK7fLJcrno252Wqb6j+jFYeTjaHG8EWXruhHv6kW+bbySa4uBGTPNFjA7lzD0Y
+    secure: 3cB4QYLjlvLWYXMZs/3d+BW7YKVDxp7MkyEeB9al8HtHYhIFxgCUiLu/765g8dEYSLETTMEG
   skip_symbols: true
   on:
     branch: master
