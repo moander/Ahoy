@@ -1,0 +1,22 @@
+version: 6.0.0-pre{build}
+branches:
+  only:
+  - master
+build_script:
+- ps: >-
+    Import-Module .\tools\psake\psake.psm1;
+    Invoke-psake .\build-definition.ps1 init, dotnet-restore, dotnet-build, dotnet-pack;
+test: off
+artifacts:
+- path: artifacts/nuget/*.nupkg
+deploy:
+- provider: NuGet
+  server: https://www.myget.org/F/ahoy/
+  api_key:
+    secure: 3cB4QYLjlvLWYXMZs/3d+BW7YKVDxp7MkyEeB9al8HtHYhIFxgCUiLu/765g8dEYSLETTMEG
+  skip_symbols: true
+  on:
+    branch: master
+    appveyor_repo_tag: true
+cache:
+  - '%USERPROFILE%\.nuget\packages -> **\project.json'
