@@ -25,12 +25,32 @@ namespace Swashbuckle.Swagger.Application
             IOptions<MvcJsonOptions> mvcJsonOptions,
             Action<SwaggerDocument, HttpRequest> documentFilter,
             string routeTemplate)
+            : this(next, swaggerProvider, mvcJsonOptions, new SwaggerMiddlewareOptions
+            {
+                RouteTemplate = routeTemplate,
+                DocumentFilter = documentFilter,
+            })
         {
+
+        }
+
+        public SwaggerMiddleware(
+            RequestDelegate next,
+            ISwaggerProvider swaggerProvider,
+            IOptions<MvcJsonOptions> mvcJsonOptions,
+            SwaggerMiddlewareOptions options)
+        {
+            if (options == null)
+            {
+                throw new ArgumentNullException(nameof(options));
+            }
+
             _next = next;
             _swaggerProvider = swaggerProvider;
             _swaggerSerializer = SwaggerSerializerFactory.Create(mvcJsonOptions);
-            _documentFilter = documentFilter;
-            _requestMatcher = new TemplateMatcher(TemplateParser.Parse(routeTemplate), new RouteValueDictionary());
+            _documentFilter = options.DocumentFilter;
+            _requestMatcher = new TemplateMatcher(TemplateParser.Parse(options.RouteTemplate), new RouteValueDictionary());
+            _requestMatcher.Defaults.Add("documentName", options.DefaultDocumentName);
         }
 
         public async Task Invoke(HttpContext httpContext)
@@ -59,7 +79,7 @@ namespace Swashbuckle.Swagger.Application
             documentName = null;
             if (request.Method != "GET") return false;
 
-			var routeValues = new RouteValueDictionary();
+            var routeValues = new RouteValueDictionary();
             if (!_requestMatcher.TryMatch(request.Path, routeValues) || !routeValues.ContainsKey("documentName")) return false;
 
             documentName = routeValues["documentName"].ToString();
